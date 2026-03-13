@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Cemtrabi{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <div class="logo-area">
+    <a href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" alt="CEMTRABI" class="logo-img">
+    </a>
+</div>
+
+        <!-- BOTÃO HAMBURGER -->
+        <div class="hamburger" onclick="toggleMenu()">
+            ☰
+        </div>
+
+        <nav class="menu" id="menu">
+            <a href="{% url 'home' %}">Inicio</a>
+            <a href="{% url 'medicina' %}">Medicina Ocupacional</a>
+            <a href="{% url 'seguranca' %}">Segurança do Trabalho</a>
+            <a href="{% url 'treinamentos' %}">Treinamentos</a>
+            <a href="{% url 'sobre' %}">Sobre Nós</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="footer">
+    <p>Cemtrabi — Soluções em Medicina e Segurança do Trabalho</p>
+</footer>
+
+<!-- JS -->
+<script src="{% static 'js/main.js' %}"></script>
+
+<script>
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

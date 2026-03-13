@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Sobre Nós | Cemtrabi{% endblock %}
+
+{% block content %}
+
+<section class="sobre">
+    <div class="container">
+
+        <div class="sobre-card">
+
+            <header class="sobre-header">
+                <h2>Sobre Nós</h2>
+                <p>
+                    A Cemtrabi atua com soluções completas em Medicina Ocupacional,
+                    Segurança do Trabalho e Treinamentos, atendendo empresas com
+                    responsabilidade, agilidade e conformidade legal.
+                </p>
+            </header>
+
+            <div class="sobre-grid">
+
+                <!-- BLOCO TEXTO / CONTATO -->
+                <div class="sobre-info">
+
+                    <div class="sobre-box">
+                        <h3>Contato</h3>
+                        <p><strong>Email:</strong> cemtrabivr@gmail.com</p>
+                        <p><strong>Telefone:</strong> (21) 97520-4123</p>
+                    </div>
+
+                    <div class="sobre-box">
+
+                        <h3>Unidade</h3>
+
+                        <!-- SELECT DE UNIDADE -->
+                        <select id="local-select">
+                            <option value="vr">Volta Redonda</option>
+                            <option value="itaguai">Itaguaí</option>
+                        </select>
+
+                        <!-- ENDEREÇO DINÂMICO -->
+                        <div id="endereco-info">
+                            <p>
+                                Av. Sete de Setembro, 07, Loja 11<br>
+                                Aterrado – Volta Redonda / RJ
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- BLOCO MAPA -->
+                <div class="sobre-mapa">
+                    <iframe
+                        id="mapa-local"
+                        src="https://www.google.com/maps?q=Av.%20Sete%20de%20Setembro,%2007,%20Loja%2011,%20Aterrado,%20Volta%20Redonda%20RJ&z=16&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+
+const selectLocal = document.getElementById("local-select");
+const mapa = document.getElementById("mapa-local");
+const endereco = document.getElementById("endereco-info");
+
+selectLocal.addEventListener("change", function() {
+
+    if (this.value === "vr") {
+
+        endereco.innerHTML = `
+        <p>
+        Av. Sete de Setembro, 07, Loja 11<br>
+        Aterrado – Volta Redonda / RJ
+        </p>
+        `;
+
+        mapa.src = "https://www.google.com/maps?q=Av.%20Sete%20de%20Setembro,%2007,%20Loja%2011,%20Aterrado,%20Volta%20Redonda%20RJ&z=16&output=embed";
+
+    }
+
+    if (this.value === "itaguai") {
+
+        endereco.innerHTML = `
+        <p>
+        R. Rev. Otávio Luís Viêira, 49<br>
+        Centro – Itaguaí / RJ<br>
+        CEP: 23815-150
+        </p>
+        `;
+
+        mapa.src = "https://www.google.com/maps?q=R.%20Rev.%20Ot%C3%A1vio%20Lu%C3%ADs%20Vi%C3%AAira,%2049,%20Centro,%20Itagua%C3%AD%20RJ&z=16&output=embed";
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
