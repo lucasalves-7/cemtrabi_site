@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Treinamentos | Cemtrabi{% endblock %}
+
+{% block content %}
+
+<section class="treinamentos">
+    <div class="container">
+
+        <!-- CARD PRINCIPAL -->
+        <div class="treinamentos-card">
+
+            <h2>Treinamentos</h2>
+
+            <p class="treinamentos-intro">
+                Oferecemos treinamentos voltados à capacitação dos colaboradores,
+                atendendo às exigências legais e promovendo a conscientização
+                sobre segurança, saúde e prevenção de riscos no ambiente de trabalho.
+            </p>
+
+            <p class="treinamentos-sub">
+                Nossos treinamentos são ministrados por profissionais qualificados,
+                com conteúdo atualizado e foco na aplicação prática.
+            </p>
+
+            <!-- ACCORDION -->
+            <div class="accordion">
+
+                <!-- BARRA 1 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Treinamentos Obrigatórios (NRs)
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Realizamos treinamentos obrigatórios conforme as
+                            Normas Regulamentadoras, garantindo que a empresa
+                            esteja em conformidade com a legislação vigente.
+                        </p>
+
+                        <ul>
+                            <li>NR-01 – Disposições Gerais</li>
+                            <li>NR-05 – CIPA</li>
+                            <li>NR-06 – Uso de EPI</li>
+                            <li>NR-07 – PCMSO</li>
+                            <li>NR-09 – Riscos Ambientais</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- BARRA 2 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Treinamentos Operacionais e de Segurança
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Capacitações voltadas à prevenção de acidentes
+                            e à operação segura de atividades e equipamentos.
+                        </p>
+
+                        <ul>
+                            <li>Trabalho em Altura</li>
+                            <li>Espaço Confinado</li>
+                            <li>Combate a Incêndio</li>
+                            <li>Primeiros Socorros</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- BARRA 3 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Treinamentos Personalizados
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Desenvolvemos treinamentos sob medida,
+                            de acordo com os riscos, atividades e
+                            necessidades específicas de cada empresa.
+                        </p>
+
+                        <ul>
+                            <li>Conteúdo personalizado</li>
+                            <li>Aulas teóricas e práticas</li>
+                            <li>Treinamentos In Company</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /accordion -->
+
+        </div>
+        <!-- /treinamentos-card -->
+
+    </div>
+</section>
+
+{% endblock %}
+

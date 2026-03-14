@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Medicina Ocupacional | Cemtrabi{% endblock %}
+
+{% block content %}
+
+<section class="medicina">
+    <div class="container">
+
+        <!-- CARD PRINCIPAL -->
+        <div class="medicina-card">
+
+            <h2>Medicina Ocupacional</h2>
+
+            <p class="medicina-intro">
+                Atuamos com soluções completas em Medicina Ocupacional,
+                promovendo a saúde dos colaboradores e garantindo
+                conformidade com a legislação trabalhista.
+            </p>
+            <p class="medicina-sub">
+                Conheça os principais exames e avaliações realizados pela Cemtrabi-VR:
+            </p>
+
+            <!-- ACCORDION -->
+            <div class="accordion">
+
+                <!-- BARRA 1 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Exames Ocupacionais
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Realizamos os exames ocupacionais exigidos pela
+                            legislação trabalhista, avaliando as condições
+                            de saúde do colaborador em relação às atividades
+                            exercidas e aos riscos ocupacionais.
+                        </p>
+
+                        <ul>
+                            <li>Exame Admissional</li>
+                            <li>Exame Periódico</li>
+                            <li>Exame Demissional</li>
+                            <li>Retorno ao Trabalho</li>
+                            <li>Mudança de Riscos Ocupacionais</li>
+                            <li>ASO – Atestado de Saúde Ocupacional</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- BARRA 2 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Exames Complementares e Diagnósticos
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Os exames complementares e diagnósticos auxiliam
+                            na prevenção, no monitoramento da saúde
+                            ocupacional e na identificação de possíveis
+                            riscos relacionados às atividades desempenhadas.
+                        </p>
+
+                        <ul>
+                            <li>Audiometria – avaliação da capacidade auditiva</li>
+                            <li>Espirometria – avaliação da função pulmonar</li>
+                            <li>Eletrocardiograma (ECG)</li>
+                            <li>Eletroencefalograma (EEG)</li>
+                            <li>Acuidade Visual</li>
+                            <li>Raio-X</li>
+                            <li>Exame Toxicológico</li>
+                            <li>Triagem Clínica</li>
+                            <li>Exames Laboratoriais</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- BARRA 3 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" type="button">
+                        Avaliações Clínicas e Psicossociais
+                        <span class="accordion-icon">+</span>
+                    </button>
+
+                    <div class="accordion-content">
+                        <p>
+                            Avaliações voltadas à análise das condições
+                            físicas, emocionais e comportamentais do
+                            colaborador, garantindo segurança, bem-estar
+                            e adequação às funções exercidas.
+                        </p>
+
+                        <ul>
+                            <li>Avaliação Clínica Ocupacional</li>
+                            <li>Avaliação Psicossocial</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /accordion -->
+
+        </div>
+        <!-- /medicina-card -->
+
+    </div>
+</section>
+
+{% endblock %}

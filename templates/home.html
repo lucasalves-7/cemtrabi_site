@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+Cemtrabi | Soluções em Medicina e Segurança do Trabalho
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <div class="container hero-container">
+
+        <!-- TEXTO -->
+        <div class="hero-text">
+    <span class="badge">
+        Atendimento em todo Brasil
+    </span>
+
+    <h2>
+        Soluções completas em<br>
+        Medicina e Segurança do Trabalho
+    </h2>
+
+    <p>
+        A Cemtrabi atua com soluções completas em Medicina Ocupacional,
+        Segurança do Trabalho e Treinamentos, assegurando conformidade legal,
+        agilidade nos processos e segurança para empresas de todos os portes.<br>
+    
+
+        Atendemos todo o território nacional,
+        oferecendo um atendimento próximo, técnico e personalizado.<br><br>
+        Solicite um orçamento e conte com uma equipe especializada
+        cuidando da saúde e da segurança dos seus colaboradores.<br><br>
+    </p>
+        
+
+    <a href="{% url 'contato' %}" class="btn">
+        Solicitar Orçamento
+    </a>
+</div>
+
+
+        <!-- SLIDER -->
+        <div class="hero-slider">
+            <button class="slider-btn prev" type="button">&#10094;</button>
+
+            <img src="{% static 'images/hero1.png' %}" alt="Medicina Ocupacional" class="slide active">
+            <img src="{% static 'images/hero2.png' %}" alt="Exames Ocupacionais" class="slide">
+            <img src="{% static 'images/hero3.png' %}" alt="Saúde Corporativa" class="slide">
+
+            <button class="slider-btn next" type="button">&#10095;</button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= DESTAQUES ================= -->
+<section class="destaques">
+    <div class="container destaques-container">
+
+        <div class="card">
+            <h3>Medicina Ocupacional</h3>
+            <p>
+                Exames ocupacionais, ASOs, exames laboratoriais e
+                atendimento In Company, garantindo saúde e conformidade
+                legal para sua empresa.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Segurança do Trabalho</h3>
+            <p>
+                Programas legais, laudos técnicos, avaliações ambientais
+                e apoio completo às exigências do eSocial.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Treinamentos</h3>
+            <p>
+                Capacitações NR com estrutura completa, instrutores
+                certificados e foco na prevenção de riscos.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="cta-final">
+    <div class="container">
+
+        <h2>Precisa de uma solução ocupacional?</h2>
+
+        <p>
+            Fale com nossa equipe e solicite um orçamento com atendimento
+            rápido, técnico e personalizado para a sua empresa.
+        </p>
+
+        <a href="{% url 'contato' %}" class="btn">
+            Solicitar Orçamento
+        </a>
+
+    </div>
+</section>
+{% endblock %}
