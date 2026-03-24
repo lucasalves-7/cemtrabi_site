@@ -150,7 +150,9 @@ display:block;
     top: 0;
     left: 0;
 
-    width: 100%;
+    width: 65%;
+    max-width: 300px;
+
     height: 100vh;
 
     background: #8af783;
