@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Contato | Cemtrabi{% endblock %}
+
+{% block content %}
+
+<section class="contato">
+    <div class="container">
+
+        <div class="contato-card">
+
+            <!-- CABEÇALHO -->
+            <header class="contato-header">
+                <h2>Solicitar Orçamento</h2>
+                <p>
+                    Preencha os dados abaixo e nossa equipe entrará em contato
+                    para entender a necessidade da sua empresa.
+                </p>
+            </header>
+
+            <!-- POP-UP (DJANGO MESSAGES) -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="toast {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- FORMULÁRIO -->
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- DADOS DA EMPRESA -->
+                <div class="form-section">
+                    <h3>Dados da Empresa</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form.empresa.label_tag }}
+                            {{ form.empresa }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.cnpj.label_tag }}
+                            {{ form.cnpj }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESPONSÁVEL -->
+                <div class="form-section">                   
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form.responsavel.label_tag }}
+                            {{ form.responsavel }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.telefone.label_tag }}
+                            {{ form.telefone }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.servico.label_tag }}
+                            {{ form.servico }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MENSAGEM -->
+                <div class="form-section">
+                    <h3>Mensagem</h3>
+
+                    <div class="form-group">
+                        {{ form.mensagem }}
+                    </div>
+                </div>
+
+                <!-- BOTÃO -->
+                <button type="submit" class="btn btn-submit" id="submit-btn">
+                    <span class="btn-text">Enviar Solicitação</span>
+                    <span class="btn-loading" style="display: none;">Enviando...</span>
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
