@@ -136,22 +136,21 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-const hamburger = document.getElementById("hamburger")
-const menu = document.getElementById("menu")
-const overlay = document.getElementById("overlay")
+document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById("hamburger")
+    const menu = document.getElementById("menu")
+    const overlay = document.getElementById("overlay")
 
-hamburger.addEventListener("click", () => {
+    if (hamburger && menu && overlay) {
+        hamburger.addEventListener("click", () => {
+            menu.classList.toggle("active")
+            overlay.classList.toggle("active")
+        })
 
-menu.classList.toggle("active")
-overlay.classList.toggle("active")
-
+        overlay.addEventListener("click", () => {
+            menu.classList.remove("active")
+            overlay.classList.remove("active")
+        })
+    }
 })
-
-overlay.addEventListener("click", () => {
-
-menu.classList.remove("active")
-overlay.classList.remove("active")
-
-})
-
 
