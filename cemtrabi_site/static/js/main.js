@@ -14,6 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const prev = document.querySelector(".slider-btn.prev");
     const next = document.querySelector(".slider-btn.next");
 
+    if (!slides.length || !prev || !next) {
+        return;
+    }
+
     let index = 0;
     let interval;
 
@@ -137,20 +141,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const hamburger = document.getElementById("hamburger")
-    const menu = document.getElementById("menu")
-    const overlay = document.getElementById("overlay")
+    const hamburger = document.getElementById("hamburger");
+    const menu = document.getElementById("menu");
+    const overlay = document.getElementById("overlay");
 
     if (hamburger && menu && overlay) {
+        const menuLinks = menu.querySelectorAll("a");
+
+        const syncMenuState = (isActive) => {
+            menu.classList.toggle("active", isActive);
+            overlay.classList.toggle("active", isActive);
+            hamburger.setAttribute("aria-expanded", String(isActive));
+        };
+
         hamburger.addEventListener("click", () => {
-            menu.classList.toggle("active")
-            overlay.classList.toggle("active")
-        })
+            syncMenuState(!menu.classList.contains("active"));
+        });
 
         overlay.addEventListener("click", () => {
-            menu.classList.remove("active")
-            overlay.classList.remove("active")
-        })
-    }
-})
+            syncMenuState(false);
+        });
 
+        menuLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                syncMenuState(false);
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                syncMenuState(false);
+            }
+        });
+    }
+});

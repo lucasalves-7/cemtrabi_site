@@ -21,9 +21,9 @@
 </div>
 
         <!-- BOTÃO HAMBURGER -->
-        <div class="hamburger" onclick="toggleMenu()">
+        <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="menu">
             ☰
-        </div>
+        </button>
 
         <nav class="menu" id="menu">
             <a href="{% url 'home' %}">Inicio</a>
@@ -36,6 +36,8 @@
     </div>
 </header>
 
+<div id="overlay" aria-hidden="true"></div>
+
 <main class="container">
     {% block content %}
     {% endblock %}
@@ -47,12 +49,6 @@
 
 <!-- JS -->
 <script src="{% static 'js/main.js' %}"></script>
-
-<script>
-function toggleMenu(){
-    document.getElementById("menu").classList.toggle("active");
-}
-</script>
 
 </body>
 </html>

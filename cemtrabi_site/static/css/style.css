@@ -58,6 +58,7 @@ h3 {
 .header-inner {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
     padding: 14px 24px;
     display: flex;
     align-items: center;
@@ -115,49 +116,17 @@ max-height: 55px;
 
 .hamburger{
     display:none;
+    border: none;
+    background: transparent;
     font-size:28px;
+    color: #1a1a1a;
+    line-height: 1;
     cursor:pointer;
     transition: transform 0.2s ease;
 }
 
 .hamburger:hover{
     transform:scale(1.1);
-}
-
-@media (max-width:768px){
-
-.menu{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-
-    position: fixed;
-    top: 70px;
-    left: 0;
-
-    width: 70%;
-    max-width: 300px;
-    height: calc(100vh - 70px);
-
-    background: #8af783;
-
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-
-    z-index: 999;
-
-    padding-top: 20px;
-}
-
-.menu.active{
-    transform: translateX(0);
-}
-
-.menu a{
-    padding: 16px 0;
-    font-size: 18px;
-}
 }
 
 #overlay{
@@ -502,20 +471,45 @@ main {
 
     /* MENU MOBILE */
     .menu{
-        display:none;
+        display:flex;
         flex-direction:column;
-        position:absolute;
+        align-items: flex-start;
+        position:fixed;
         top:70px;
         left:0;
-        width:100%;
+        width:min(78vw, 320px);
+        height: calc(100vh - 70px);
         background:#8af783;
-        text-align:center;
-        padding:20px 0;
-        gap:18px;
+        text-align:left;
+        padding:20px;
+        gap:8px;
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18);
+        transform: translateX(-100%);
+        transition: transform 0.28s ease;
+        z-index: 999;
     }
 
     .menu.active{
-        display:flex;
+        transform: translateX(0);
+    }
+
+    .menu a{
+        width: 100%;
+        padding: 12px 0;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    }
+
+    .menu a:last-child {
+        border-bottom: none;
+    }
+
+    .header-inner {
+        padding: 12px 16px;
+    }
+
+    .logo-img {
+        max-height: 48px;
     }
 
     /* HERO */
