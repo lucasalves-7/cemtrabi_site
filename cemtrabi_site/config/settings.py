@@ -1,3 +1,4 @@
+import os
 """
 Django settings for cemtrabi_site project.
 
@@ -139,6 +140,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 
 # --------------------------------------------------
