@@ -111,8 +111,8 @@ cemtrabi/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/lucasalves-7/cemtrabi_site
+cd cemtrabi_site
 ```
 
 ---
@@ -120,7 +120,7 @@ cd seu-repositorio
 ### 2. Crie o ambiente virtual
 
 ```bash
-python -m venv venv
+python -m venv env
 ```
 
 Ative:
@@ -128,7 +128,7 @@ Ative:
 **Windows**
 
 ```bash
-venv\Scripts\activate
+env\Scripts\activate
 ```
 
 ---
