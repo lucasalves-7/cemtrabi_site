@@ -1041,6 +1041,23 @@ form select:hover {
     gap: 12px 20px;
 }
 
+.encaminhamento form,
+.encaminhamento .form-grid,
+.encaminhamento .form-group,
+.encaminhamento input,
+.encaminhamento select,
+.encaminhamento textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.encaminhamento input,
+.encaminhamento select,
+.encaminhamento textarea,
+.encaminhamento input[type="file"] {
+    width: 100%;
+}
+
 .checkbox-option {
     display: flex;
     align-items: center;
@@ -1092,16 +1109,21 @@ form input[type="file"] {
 .success-modal-overlay {
     position: fixed;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 24px;
     background: rgba(0, 0, 0, 0.48);
     z-index: 10000;
 }
 
 .success-modal {
-    width: min(100%, 460px);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    max-width: 460px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
     background: #ffffff;
     border-radius: 12px;
     padding: 30px;
@@ -1184,16 +1206,19 @@ form input[type="file"] {
 
 @media (max-width: 768px) {
     .checkbox-grid,
-    .outro-exame-grid {
+    .outro-exame-grid,
+    .encaminhamento .form-grid {
         grid-template-columns: 1fr;
     }
 
-    .success-modal-overlay {
-        align-items: flex-end;
-        padding: 16px;
+    .encaminhamento .contato-card {
+        padding: 22px 14px;
     }
 
     .success-modal {
+        width: 90%;
+        max-width: 420px;
+        max-height: 90vh;
         padding: 24px 18px;
     }
 
