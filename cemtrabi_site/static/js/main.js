@@ -106,6 +106,38 @@ document.addEventListener("DOMContentLoaded", function () {
 // MÁSCARA DE TELEFONE
 // ===============================
 document.addEventListener("DOMContentLoaded", function () {
+    const cpfInput = document.querySelector("input[name='cpf']");
+
+    if (cpfInput) {
+        cpfInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, "");
+
+            value = value.replace(/^(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+            value = value.replace(/\.(\d{3})(\d)/, ".$1-$2");
+
+            e.target.value = value.substring(0, 14);
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const rgInput = document.querySelector("input[name='rg']");
+
+    if (rgInput) {
+        rgInput.addEventListener("input", function (e) {
+            let value = e.target.value.replace(/[^0-9xX]/g, "").toUpperCase();
+
+            value = value.replace(/^(\d{2})(\d)/, "$1.$2");
+            value = value.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            value = value.replace(/\.(\d{3})([0-9X])/, ".$1-$2");
+
+            e.target.value = value.substring(0, 12);
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const phoneInput = document.querySelector("input[name='telefone']");
 
     if (phoneInput) {
@@ -172,6 +204,17 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.key === "Escape") {
                 syncMenuState(false);
             }
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("encaminhamento-success-modal");
+    const closeButton = document.querySelector("[data-close-success-modal]");
+
+    if (modal && closeButton) {
+        closeButton.addEventListener("click", function () {
+            modal.remove();
         });
     }
 });

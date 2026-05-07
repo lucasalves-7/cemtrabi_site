@@ -1,5 +1,5 @@
 from django import forms
-from .models import Lead
+from .models import Encaminhamento, Lead
 
 
 class LeadForm(forms.ModelForm):
@@ -65,3 +65,93 @@ class LeadForm(forms.ModelForm):
 
         return cnpj
 
+
+class EncaminhamentoForm(forms.ModelForm):
+    tipo_exame = forms.ChoiceField(choices=[
+        ('admissional', 'Admissional'),
+        ('demissional', 'Demissional'),
+        ('periodico', 'Periódico'),
+        ('retorno_trabalho', 'Retorno ao trabalho'),
+        ('mudanca_funcao', 'Mudança de função'),
+    ])
+
+    class Meta:
+        model = Encaminhamento
+        fields = [
+            'cnpj',
+            'empresa',
+            'endereco_empresa',
+            'nome_emitente',
+            'telefone',
+            'data_encaminhamento',
+            'tipo_exame',
+            'nome',
+            'data_nascimento',
+            'data_admissao',
+            'rg',
+            'cpf',
+            'funcao',
+            'setor',
+            'riscos_ocupacionais',
+            'exame_clinico',
+            'audiometria',
+            'acuidade_visual',
+            'eletrocardiograma',
+            'eletroencefalograma',
+            'espirometria',
+            'avaliacao_psicossocial',
+            'raio_x_torax',
+            'teste_romberg',
+            'hemograma',
+            'glicemia',
+            'acido_hipurico',
+            'acido_metil_hipurico',
+            'grupo_sanguineo_fator_rh',
+            'outro_exame',
+            'descricao_outro_exame',
+            'pcmso',
+        ]
+
+        widgets = {
+            'nome': forms.TextInput(attrs={'placeholder': 'Nome completo'}),
+            'cpf': forms.TextInput(attrs={
+                'placeholder': '000.000.000-00',
+                'inputmode': 'numeric',
+            }),
+            'rg': forms.TextInput(attrs={'placeholder': 'RG'}),
+            'data_nascimento': forms.DateInput(attrs={'type': 'date'}),
+            'data_encaminhamento': forms.DateInput(attrs={'type': 'date'}),
+            'telefone': forms.TextInput(attrs={
+                'placeholder': '(00) 00000-0000',
+                'inputmode': 'numeric',
+            }),
+            'empresa': forms.TextInput(attrs={'placeholder': 'Nome da empresa'}),
+            'cnpj': forms.TextInput(attrs={
+                'placeholder': '00.000.000/0000-00',
+                'inputmode': 'numeric',
+            }),
+            'nome_emitente': forms.TextInput(attrs={'placeholder': 'Nome do emitente'}),
+            'endereco_empresa': forms.TextInput(attrs={'placeholder': 'Endereço da empresa'}),
+            'funcao': forms.TextInput(attrs={'placeholder': 'Função'}),
+            'setor': forms.TextInput(attrs={'placeholder': 'Setor'}),
+            'data_admissao': forms.DateInput(attrs={'type': 'date'}),
+            'tipo_exame': forms.Select(),
+            'riscos_ocupacionais': forms.Textarea(attrs={
+                'placeholder': 'Informe os riscos ocupacionais',
+                'rows': 4,
+            }),
+            'descricao_outro_exame': forms.TextInput(attrs={
+                'placeholder': 'Informe o exame personalizado',
+            }),
+            'pcmso': forms.FileInput(attrs={
+                'accept': '.pdf,.jpg,.jpeg,.png',
+            }),
+        }
+
+        labels = {
+            'audiometria': 'Audiometria tonal',
+            'hemograma': 'Hemograma completo com plaquetas',
+            'glicemia': 'Glicemia em jejum',
+            'raio_x_torax': 'Raio X tórax padrão OIT',
+            'teste_romberg': 'Teste de equilíbrio/Romberg',
+        }

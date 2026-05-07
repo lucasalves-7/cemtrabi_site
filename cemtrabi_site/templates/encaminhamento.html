@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}Encaminhamento | Cemtrabi{% endblock %}
+
+{% block content %}
+
+<section class="contato encaminhamento">
+    <div class="container">
+
+        <div class="contato-card">
+
+            <header class="contato-header">
+                <h2>Encaminhamento</h2>
+                <p>
+                    Preencha os dados abaixo e anexe o PCMSO para registrar
+                    o encaminhamento.
+                </p>
+            </header>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="toast {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form-section">
+                    <h3>Dados do Colaborador</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form.nome.label_tag }}
+                            {{ form.nome }}
+                            {{ form.nome.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.cpf.label_tag }}
+                            {{ form.cpf }}
+                            {{ form.cpf.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.rg.label_tag }}
+                            {{ form.rg }}
+                            {{ form.rg.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.data_nascimento.label_tag }}
+                            {{ form.data_nascimento }}
+                            <p class="field-help">A idade será calculada automaticamente.</p>
+                            {{ form.data_nascimento.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Dados da Empresa</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form.empresa.label_tag }}
+                            {{ form.empresa }}
+                            {{ form.empresa.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.cnpj.label_tag }}
+                            {{ form.cnpj }}
+                            {{ form.cnpj.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.nome_emitente.label_tag }}
+                            {{ form.nome_emitente }}
+                            {{ form.nome_emitente.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.endereco_empresa.label_tag }}
+                            {{ form.endereco_empresa }}
+                            {{ form.endereco_empresa.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.telefone.label_tag }}
+                            {{ form.telefone }}
+                            {{ form.telefone.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.data_encaminhamento.label_tag }}
+                            {{ form.data_encaminhamento }}
+                            {{ form.data_encaminhamento.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Dados Profissionais</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            {{ form.funcao.label_tag }}
+                            {{ form.funcao }}
+                            {{ form.funcao.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.setor.label_tag }}
+                            {{ form.setor }}
+                            {{ form.setor.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.data_admissao.label_tag }}
+                            {{ form.data_admissao }}
+                            {{ form.data_admissao.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.tipo_exame.label_tag }}
+                            {{ form.tipo_exame }}
+                            {{ form.tipo_exame.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.riscos_ocupacionais.label_tag }}
+                            {{ form.riscos_ocupacionais }}
+                            {{ form.riscos_ocupacionais.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Exames Complementares</h3>
+
+                    <div class="checkbox-grid">
+                        {% for field in exames_fields %}
+                            <label class="checkbox-option">
+                                {{ field }}
+                                <span>{{ field.label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    <div class="outro-exame-grid">
+                        <label class="checkbox-option">
+                            {{ form.outro_exame }}
+                            <span>{{ form.outro_exame.label }}</span>
+                        </label>
+
+                        <div class="form-group">
+                            {{ form.descricao_outro_exame.label_tag }}
+                            {{ form.descricao_outro_exame }}
+                            {{ form.descricao_outro_exame.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>PCMSO</h3>
+
+                    <div class="form-group">
+                        {{ form.pcmso.label_tag }}
+                        {{ form.pcmso }}
+                        <p class="field-help">
+                            Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 5MB).
+                        </p>
+                        {{ form.pcmso.errors }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-submit" id="submit-btn">
+                    <span class="btn-text">Enviar Encaminhamento</span>
+                    <span class="btn-loading" style="display: none;">Enviando...</span>
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% if sucesso_modal %}
+<div class="success-modal-overlay" id="encaminhamento-success-modal">
+    <div class="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
+        <h3 id="success-modal-title">Encaminhamento enviado com sucesso</h3>
+        <p>
+            O encaminhamento de {{ sucesso_modal.nome }} pela empresa
+            {{ sucesso_modal.empresa }} foi registrado.
+        </p>
+
+        <div class="success-modal-actions">
+            <a class="btn btn-whatsapp" href="{{ sucesso_modal.whatsapp_url }}" target="_blank" rel="noopener">
+                Avisar no WhatsApp
+            </a>
+            <button class="btn btn-secondary" type="button" data-close-success-modal>
+                Fechar
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
