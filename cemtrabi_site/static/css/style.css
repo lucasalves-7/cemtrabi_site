@@ -843,6 +843,8 @@ form select:hover {
     position: relative;
     min-width: 220px;
     text-align: center;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-submit.loading {
@@ -851,7 +853,25 @@ form select:hover {
 }
 
 .btn-loading {
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-weight: 600;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ===============================

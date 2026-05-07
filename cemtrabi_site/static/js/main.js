@@ -158,16 +158,74 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
     const button = document.getElementById('submit-btn');
+    const form = button ? button.closest('form') : null;
+    let loadingTimeout;
 
-    if (form && button) {
-        form.addEventListener('submit', function () {
-            button.classList.add('loading');
+    function setButtonLoading(isLoading) {
+        if (!button) {
+            return;
+        }
 
-            button.querySelector('.btn-text').style.display = 'none';
-            button.querySelector('.btn-loading').style.display = 'inline';
+        const buttonText = button.querySelector('.btn-text');
+        const buttonLoading = button.querySelector('.btn-loading');
+
+        button.classList.toggle('loading', isLoading);
+        button.disabled = isLoading;
+
+        if (buttonText) {
+            buttonText.style.display = isLoading ? 'none' : 'inline';
+        }
+
+        if (buttonLoading) {
+            buttonLoading.style.display = isLoading ? 'inline-flex' : 'none';
+        }
+    }
+
+    function showSubmitMessage(message) {
+        if (!form || document.querySelector('.submit-feedback')) {
+            return;
+        }
+
+        const feedback = document.createElement('div');
+        feedback.className = 'toast error submit-feedback';
+        feedback.textContent = message;
+        document.body.appendChild(feedback);
+
+        setTimeout(() => {
+            feedback.remove();
+        }, 5000);
+    }
+
+    function resetSubmitState() {
+        if (form) {
+            form.dataset.submitting = 'false';
+        }
+        clearTimeout(loadingTimeout);
+        setButtonLoading(false);
+    }
+
+    if (form) {
+        resetSubmitState();
+
+        form.addEventListener('submit', function (event) {
+            if (form.dataset.submitting === 'true') {
+                event.preventDefault();
+                return;
+            }
+
+            form.dataset.submitting = 'true';
+            setButtonLoading(true);
+
+            loadingTimeout = setTimeout(() => {
+                resetSubmitState();
+                showSubmitMessage(
+                    'O envio está demorando mais que o esperado. Verifique sua conexão e tente novamente.'
+                );
+            }, 45000);
         });
+
+        window.addEventListener('pageshow', resetSubmitState);
     }
 });
 
