@@ -1,15 +1,18 @@
+import logging
+
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 
 
-MAX_PCMSO_SIZE = 5 * 1024 * 1024
+MAX_PCMSO_SIZE = 10 * 1024 * 1024
+logger = logging.getLogger(__name__)
 
 
 def validar_tamanho_pcmso(arquivo):
     if arquivo.size > MAX_PCMSO_SIZE:
-        raise ValidationError('O arquivo PCMSO deve ter no máximo 5MB.')
+        raise ValidationError('Arquivo muito grande. O tamanho máximo permitido é 10MB.')
 
 
 class Lead(models.Model):
@@ -170,10 +173,11 @@ class Encaminhamento(models.Model):
     )
     pcmso = models.FileField(
         upload_to='encaminhamentos/pcmso/',
+        blank=True,
         validators=[
             FileExtensionValidator(
                 allowed_extensions=['pdf', 'jpg', 'jpeg', 'png'],
-                message='Envie um arquivo PCMSO nos formatos PDF, JPG, JPEG ou PNG.'
+                message='Arquivo inválido. Envie apenas PDF, JPG, JPEG ou PNG.'
             ),
             validar_tamanho_pcmso,
         ],
@@ -218,8 +222,16 @@ class Encaminhamento(models.Model):
         if not getattr(self, '_ignorar_geracao_docx', False):
             from .services import gerar_docx_encaminhamento, enviar_email_encaminhamento
 
-            gerar_docx_encaminhamento(self)
-            if criando:
+            try:
+                gerar_docx_encaminhamento(self)
+            except Exception:
+                logger.exception(
+                    'Erro ao gerar DOCX do encaminhamento %s.',
+                    self.pk
+                )
+                return
+
+            if criando and self.docx_gerado:
                 enviar_email_encaminhamento(self)
 
     def __str__(self):

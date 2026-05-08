@@ -176,10 +176,24 @@
                         {{ form.pcmso.label_tag }}
                         {{ form.pcmso }}
                         <p class="field-help">
-                            Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 5MB).
+                            Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 10MB).
                         </p>
                         {{ form.pcmso.errors }}
                     </div>
+                </div>
+
+                <div class="form-section privacy-consent">
+                    <label class="checkbox-option privacy-checkbox">
+                        {{ form.aceite_privacidade }}
+                        <span>
+                            Declaro que possuo autorização para envio dos dados ocupacionais do colaborador e concordo com a
+                            <a href="{% url 'politica_privacidade' %}" target="_blank" rel="noopener noreferrer">
+                                Política de Privacidade
+                            </a>
+                            da Cemtrabi.
+                        </span>
+                    </label>
+                    {{ form.aceite_privacidade.errors }}
                 </div>
 
                 <button type="submit" class="btn btn-submit" id="submit-btn">

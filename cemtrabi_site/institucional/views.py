@@ -122,3 +122,7 @@ def encaminhamento(request):
 def sobre(request):
     return render(request, 'sobre.html')
 
+
+def politica_privacidade(request):
+    return render(request, 'politica_privacidade.html')
+

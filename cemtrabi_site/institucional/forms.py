@@ -67,6 +67,13 @@ class LeadForm(forms.ModelForm):
 
 
 class EncaminhamentoForm(forms.ModelForm):
+    aceite_privacidade = forms.BooleanField(
+        required=True,
+        error_messages={
+            'required': 'É necessário confirmar a autorização e aceitar a Política de Privacidade.'
+        }
+    )
+
     tipo_exame = forms.ChoiceField(choices=[
         ('admissional', 'Admissional'),
         ('demissional', 'Demissional'),
@@ -155,3 +162,14 @@ class EncaminhamentoForm(forms.ModelForm):
             'raio_x_torax': 'Raio X tórax padrão OIT',
             'teste_romberg': 'Teste de equilíbrio/Romberg',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['pcmso'].required = False
+
+        for field_name in self.errors:
+            field = self.fields.get(field_name)
+            if not field:
+                continue
+            existing_class = field.widget.attrs.get('class', '')
+            field.widget.attrs['class'] = f'{existing_class} is-invalid'.strip()
