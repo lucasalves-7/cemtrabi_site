@@ -4,67 +4,80 @@
 
 {% block content %}
 
-<section class="sobre">
-    <div class="container">
+<section class="page-shell sobre">
+    <header class="page-hero">
+        <span class="eyebrow">Sobre a Cemtrabi</span>
+        <h1>Uma operação ocupacional mais moderna, humana e confiável</h1>
+        <p>
+            A Cemtrabi atua com soluções completas em Medicina Ocupacional,
+            Segurança do Trabalho e Treinamentos, atendendo empresas com
+            responsabilidade, agilidade e conformidade legal.
+        </p>
+    </header>
 
-        <div class="sobre-card">
+    <section class="about-proof-grid" aria-label="Diferenciais da Cemtrabi">
+        <article>
+            <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.4 2.9 8.4 7 10 4.1-1.6 7-5.6 7-10V6l-7-3Z"></path><path d="m9 12 2 2 4-5"></path></svg>
+            </span>
+            <h2>Missão</h2>
+            <p>Organizar a saúde e segurança ocupacional com responsabilidade, clareza e suporte próximo.</p>
+        </article>
+        <article>
+            <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="M8 10h8M8 14h5"></path><path d="M10 20h4"></path></svg>
+            </span>
+            <h2>Atendimento</h2>
+            <p>Fluxos digitais e acompanhamento consultivo para reduzir atritos na rotina das empresas.</p>
+        </article>
+        <article>
+            <span class="feature-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14.3-5"></path><path d="M20 6v5h-5"></path><path d="M20 12a8 8 0 0 1-14.3 5"></path><path d="M4 18v-5h5"></path></svg>
+            </span>
+            <h2>Atuação nacional</h2>
+            <p>Suporte para empresas da região Sul Fluminense e demais localidades com operação organizada.</p>
+        </article>
+    </section>
 
-            <header class="sobre-header">
-                <h2>Sobre Nós</h2>
-                <p>
-                    A Cemtrabi atua com soluções completas em Medicina Ocupacional,
-                    Segurança do Trabalho e Treinamentos, atendendo empresas com
-                    responsabilidade, agilidade e conformidade legal.
-                </p>
-            </header>
+    <div class="sobre-grid">
+        <div class="info-stack">
+            <article class="info-card">
+                <span class="feature-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="m4 7 8 6 8-6"></path></svg>
+                </span>
+                <h2>Contato</h2>
+                <p><strong>Email:</strong> cemtrabivr@gmail.com</p>
+                <p><strong>Telefone:</strong> (21) 97520-4123</p>
+            </article>
 
-            <div class="sobre-grid">
+            <article class="info-card">
+                <span class="feature-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"></path><path d="M12 10.5h.01"></path></svg>
+                </span>
+                <h2>Unidade</h2>
 
-                <!-- BLOCO TEXTO / CONTATO -->
-                <div class="sobre-info">
+                <select id="local-select">
+                    <option value="vr">Volta Redonda</option>
+                    <option value="itaguai">Itaguaí</option>
+                </select>
 
-                    <div class="sobre-box">
-                        <h3>Contato</h3>
-                        <p><strong>Email:</strong> cemtrabivr@gmail.com</p>
-                        <p><strong>Telefone:</strong> (21) 97520-4123</p>
-                    </div>
-
-                    <div class="sobre-box">
-
-                        <h3>Unidade</h3>
-
-                        <!-- SELECT DE UNIDADE -->
-                        <select id="local-select">
-                            <option value="vr">Volta Redonda</option>
-                            <option value="itaguai">Itaguaí</option>
-                        </select>
-
-                        <!-- ENDEREÇO DINÂMICO -->
-                        <div id="endereco-info">
-                            <p>
-                                Av. Sete de Setembro, 07, Loja 11<br>
-                                Aterrado – Volta Redonda / RJ
-                            </p>
-                        </div>
-
-                    </div>
-
+                <div id="endereco-info" class="address-box">
+                    <p>
+                        Av. Sete de Setembro, 07, Loja 11<br>
+                        Aterrado — Volta Redonda / RJ
+                    </p>
                 </div>
-
-                <!-- BLOCO MAPA -->
-                <div class="sobre-mapa">
-                    <iframe
-                        id="mapa-local"
-                        src="https://www.google.com/maps?q=Av.%20Sete%20de%20Setembro,%2007,%20Loja%2011,%20Aterrado,%20Volta%20Redonda%20RJ&z=16&output=embed"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-
-            </div>
-
+            </article>
         </div>
 
+        <div class="map-card">
+            <iframe
+                id="mapa-local"
+                src="https://www.google.com/maps?q=Av.%20Sete%20de%20Setembro,%2007,%20Loja%2011,%20Aterrado,%20Volta%20Redonda%20RJ&z=16&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
     </div>
 </section>
 
@@ -81,7 +94,7 @@ selectLocal.addEventListener("change", function() {
         endereco.innerHTML = `
         <p>
         Av. Sete de Setembro, 07, Loja 11<br>
-        Aterrado – Volta Redonda / RJ
+        Aterrado — Volta Redonda / RJ
         </p>
         `;
 
@@ -94,7 +107,7 @@ selectLocal.addEventListener("change", function() {
         endereco.innerHTML = `
         <p>
         R. Rev. Otávio Luís Viêira, 49<br>
-        Centro – Itaguaí / RJ<br>
+        Centro — Itaguaí / RJ<br>
         CEP: 23815-150
         </p>
         `;

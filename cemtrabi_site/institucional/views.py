@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
 from urllib.parse import quote
+
+from django.contrib import messages
+from django.db import IntegrityError
+from django.shortcuts import redirect, render
 
 from .forms import EncaminhamentoForm, LeadForm
 from .models import Lead
@@ -31,36 +33,38 @@ def contato(request):
         if form.is_valid():
             cnpj = form.cleaned_data.get('cnpj')
 
-            # 🔒 BLOQUEIO POR CNPJ
             if cnpj and Lead.objects.filter(cnpj=cnpj).exists():
                 messages.error(
                     request,
                     'Já recebemos uma solicitação com este CNPJ. '
                     'Por favor, aguarde que nossa equipe entrará em contato.'
                 )
-                # ⚠️ NÃO REDIRECIONA
                 return render(request, 'contato.html', {'form': form})
 
             lead = form.save(commit=False)
             lead.origem = 'formulario_site'
-            lead.save()
+
+            try:
+                lead.save()
+            except IntegrityError:
+                messages.error(
+                    request,
+                    'Já recebemos uma solicitação com este CNPJ. '
+                    'Por favor, aguarde que nossa equipe entrará em contato.'
+                )
+                return render(request, 'contato.html', {'form': form})
 
             messages.success(
                 request,
                 'Recebemos seu contato! Nossa equipe retornará em breve.'
             )
-
-            # ✅ REDIRECIONA APENAS NO SUCESSO
             return redirect('contato')
 
-        else:
-            # ❌ FORM INVÁLIDO (campos vazios, email errado etc)
-            messages.error(
-                request,
-                'Já recebemos uma solicitação com este CNPJ. '
-                'Por favor, aguarde que nossa equipe entrará em contato.'
-            )
-
+        messages.error(
+            request,
+            'Não foi possível enviar sua solicitação. '
+            'Verifique os campos destacados e tente novamente.'
+        )
     else:
         form = LeadForm(initial={'servico': servico_preselecionado})
 
@@ -125,4 +129,3 @@ def sobre(request):
 
 def politica_privacidade(request):
     return render(request, 'politica_privacidade.html')
-

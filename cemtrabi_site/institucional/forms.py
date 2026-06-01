@@ -1,5 +1,38 @@
+from pathlib import Path
+
 from django import forms
+
 from .models import Encaminhamento, Lead
+
+
+ASSINATURAS_PCMSO = {
+    '.pdf': [b'%PDF'],
+    '.jpg': [b'\xff\xd8\xff'],
+    '.jpeg': [b'\xff\xd8\xff'],
+    '.png': [b'\x89PNG\r\n\x1a\n'],
+}
+
+
+def somente_digitos(valor):
+    return ''.join(filter(str.isdigit, valor or ''))
+
+
+def validar_assinatura_arquivo(arquivo):
+    extensao = Path(arquivo.name).suffix.lower()
+    assinaturas_esperadas = ASSINATURAS_PCMSO.get(extensao)
+
+    if not assinaturas_esperadas:
+        raise forms.ValidationError('Arquivo inválido. Envie apenas PDF, JPG, JPEG ou PNG.')
+
+    posicao_atual = arquivo.tell()
+    cabecalho = arquivo.read(12)
+    arquivo.seek(posicao_atual)
+
+    if not any(cabecalho.startswith(assinatura) for assinatura in assinaturas_esperadas):
+        raise forms.ValidationError(
+            'O conteúdo do arquivo não corresponde ao formato enviado. '
+            'Envie um PDF ou imagem válida.'
+        )
 
 
 class LeadForm(forms.ModelForm):
@@ -51,19 +84,42 @@ class LeadForm(forms.ModelForm):
             }),
         }
 
+    def clean_empresa(self):
+        return self.cleaned_data['empresa'].strip()
+
+    def clean_responsavel(self):
+        return self.cleaned_data['responsavel'].strip()
+
+    def clean_email(self):
+        return self.cleaned_data['email'].strip().lower()
+
     def clean_cnpj(self):
-        cnpj = self.cleaned_data.get('cnpj')
+        cnpj = self.cleaned_data.get('cnpj', '').strip()
+        cnpj_limpo = somente_digitos(cnpj)
 
-        # Remove máscara para comparar corretamente
-        cnpj_limpo = ''.join(filter(str.isdigit, cnpj))
+        if len(cnpj_limpo) != 14:
+            raise forms.ValidationError('Informe um CNPJ válido com 14 dígitos.')
 
-        if Lead.objects.filter(cnpj__icontains=cnpj_limpo).exists():
+        leads = Lead.objects.only('id', 'cnpj')
+        if self.instance.pk:
+            leads = leads.exclude(pk=self.instance.pk)
+
+        if any(somente_digitos(lead.cnpj) == cnpj_limpo for lead in leads):
             raise forms.ValidationError(
                 'Este CNPJ já possui uma solicitação cadastrada. '
                 'Por gentileza, aguarde o contato da nossa equipe.'
             )
 
-        return cnpj
+        return cnpj_limpo
+
+    def clean_telefone(self):
+        telefone = self.cleaned_data.get('telefone', '').strip()
+        telefone_limpo = somente_digitos(telefone)
+
+        if len(telefone_limpo) < 10:
+            raise forms.ValidationError('Informe um telefone válido com DDD.')
+
+        return telefone
 
 
 class EncaminhamentoForm(forms.ModelForm):
@@ -173,3 +229,41 @@ class EncaminhamentoForm(forms.ModelForm):
                 continue
             existing_class = field.widget.attrs.get('class', '')
             field.widget.attrs['class'] = f'{existing_class} is-invalid'.strip()
+
+    def clean_cnpj(self):
+        cnpj = self.cleaned_data.get('cnpj', '').strip()
+
+        if not cnpj:
+            return cnpj
+
+        cnpj_limpo = somente_digitos(cnpj)
+        if len(cnpj_limpo) != 14:
+            raise forms.ValidationError('Informe um CNPJ válido com 14 dígitos.')
+
+        return cnpj
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf', '').strip()
+        cpf_limpo = somente_digitos(cpf)
+
+        if len(cpf_limpo) != 11:
+            raise forms.ValidationError('Informe um CPF válido com 11 dígitos.')
+
+        return cpf
+
+    def clean_telefone(self):
+        telefone = self.cleaned_data.get('telefone', '').strip()
+        telefone_limpo = somente_digitos(telefone)
+
+        if len(telefone_limpo) < 10:
+            raise forms.ValidationError('Informe um telefone válido com DDD.')
+
+        return telefone
+
+    def clean_pcmso(self):
+        arquivo = self.cleaned_data.get('pcmso')
+
+        if arquivo:
+            validar_assinatura_arquivo(arquivo)
+
+        return arquivo

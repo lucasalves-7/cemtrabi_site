@@ -9,7 +9,8 @@
     <link rel="apple-touch-icon" href="{% static 'images/favicon.png' %}">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}?v=20260529">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260529-senior-polish">
 </head>
 <body>
 
@@ -17,24 +18,24 @@
     <div class="header-inner">
 
         <div class="logo-area">
-    <a href="{% url 'home' %}">
-        <img src="{% static 'images/logo.png' %}" alt="CEMTRABI" class="logo-img">
-    </a>
-</div>
+            <a href="{% url 'home' %}" aria-label="Página inicial da CEMTRABI">
+                <img src="{% static 'images/logo.png' %}" alt="CEMTRABI" class="logo-img">
+            </a>
+        </div>
 
-        <!-- BOTÃO HAMBURGER -->
         <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="menu">
             ☰
         </button>
 
         <nav class="menu" id="menu">
-            <a href="{% url 'home' %}">Inicio</a>
+            <a href="{% url 'home' %}">Início</a>
             <a href="{% url 'medicina' %}">Medicina Ocupacional</a>
             <a href="{% url 'seguranca' %}">Segurança do Trabalho</a>
             <a href="{% url 'treinamentos' %}">Treinamentos</a>
             <a href="{% url 'encaminhamento' %}">Encaminhamento</a>
             <a href="https://sistema.soc.com.br/WebSoc/" target="_blank" rel="noopener noreferrer">ASO</a>
             <a href="{% url 'sobre' %}">Sobre Nós</a>
+            <a class="menu-cta" href="{% url 'contato' %}">Solicitar Atendimento</a>
         </nav>
 
     </div>
@@ -42,14 +43,41 @@
 
 <div id="overlay" aria-hidden="true"></div>
 
-<main class="container">
+<main class="site-main global-dotted-surface">
     {% block content %}
     {% endblock %}
 </main>
 
 <footer class="footer">
-    <p>Cemtrabi — Soluções em Medicina e Segurança do Trabalho</p>
-    <a class="footer-link" href="{% url 'politica_privacidade' %}">Política de Privacidade</a>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="{% static 'images/logo.png' %}" alt="CEMTRABI" class="footer-logo">
+            <p>Cemtrabi — Soluções em Medicina e Segurança do Trabalho</p>
+        </div>
+
+        <div class="footer-column">
+            <h2>Navegação</h2>
+            <a class="footer-link" href="{% url 'home' %}">Início</a>
+            <a class="footer-link" href="{% url 'sobre' %}">Sobre Nós</a>
+            <a class="footer-link" href="{% url 'contato' %}">Solicitar Atendimento</a>
+            <a class="footer-link" href="{% url 'politica_privacidade' %}">Política de Privacidade</a>
+        </div>
+
+        <div class="footer-column">
+            <h2>Serviços</h2>
+            <a class="footer-link" href="{% url 'medicina' %}">Medicina Ocupacional</a>
+            <a class="footer-link" href="{% url 'seguranca' %}">Segurança do Trabalho</a>
+            <a class="footer-link" href="{% url 'treinamentos' %}">Treinamentos</a>
+            <a class="footer-link" href="{% url 'encaminhamento' %}">Encaminhamento</a>
+        </div>
+
+        <div class="footer-column footer-contact">
+            <h2>Contato</h2>
+            <p>cemtrabivr@gmail.com</p>
+            <p>(21) 97520-4123</p>
+            <a class="footer-link footer-cta" href="{% url 'contato' %}">Solicitar Atendimento</a>
+        </div>
+    </div>
 </footer>
 
 <a

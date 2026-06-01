@@ -4,209 +4,205 @@
 
 {% block content %}
 
-<section class="contato encaminhamento">
-    <div class="container">
+<section class="page-shell form-page contato encaminhamento">
+    <header class="page-hero compact">
+        <span class="eyebrow">Fluxo digital ocupacional</span>
+        <h1>Encaminhamento</h1>
+        <p>
+            Preencha os dados abaixo e anexe o PCMSO para registrar
+            o encaminhamento.
+        </p>
+        <p class="trust-note">As informações são usadas apenas para registro ocupacional e atendimento interno.</p>
+    </header>
 
-        <div class="contato-card">
+    <div class="contato-card wide-form">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-            <header class="contato-header">
-                <h2>Encaminhamento</h2>
-                <p>
-                    Preencha os dados abaixo e anexe o PCMSO para registrar
-                    o encaminhamento.
-                </p>
-            </header>
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
 
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="toast {{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
             {% endif %}
 
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
+            <div class="form-section form-step">
+                <h3><span>01</span> Dados do Colaborador</h3>
 
-                {% if form.non_field_errors %}
-                    <div class="form-errors">
-                        {{ form.non_field_errors }}
+                <div class="form-grid">
+                    <div class="form-group">
+                        {{ form.nome.label_tag }}
+                        {{ form.nome }}
+                        {{ form.nome.errors }}
                     </div>
-                {% endif %}
-
-                <div class="form-section">
-                    <h3>Dados do Colaborador</h3>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            {{ form.nome.label_tag }}
-                            {{ form.nome }}
-                            {{ form.nome.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.cpf.label_tag }}
-                            {{ form.cpf }}
-                            {{ form.cpf.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.rg.label_tag }}
-                            {{ form.rg }}
-                            {{ form.rg.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.data_nascimento.label_tag }}
-                            {{ form.data_nascimento }}
-                            <p class="field-help">A idade será calculada automaticamente.</p>
-                            {{ form.data_nascimento.errors }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Dados da Empresa</h3>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            {{ form.empresa.label_tag }}
-                            {{ form.empresa }}
-                            {{ form.empresa.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.cnpj.label_tag }}
-                            {{ form.cnpj }}
-                            {{ form.cnpj.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.nome_emitente.label_tag }}
-                            {{ form.nome_emitente }}
-                            {{ form.nome_emitente.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.endereco_empresa.label_tag }}
-                            {{ form.endereco_empresa }}
-                            {{ form.endereco_empresa.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.telefone.label_tag }}
-                            {{ form.telefone }}
-                            {{ form.telefone.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.data_encaminhamento.label_tag }}
-                            {{ form.data_encaminhamento }}
-                            {{ form.data_encaminhamento.errors }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Dados Profissionais</h3>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            {{ form.funcao.label_tag }}
-                            {{ form.funcao }}
-                            {{ form.funcao.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.setor.label_tag }}
-                            {{ form.setor }}
-                            {{ form.setor.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.data_admissao.label_tag }}
-                            {{ form.data_admissao }}
-                            {{ form.data_admissao.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.tipo_exame.label_tag }}
-                            {{ form.tipo_exame }}
-                            {{ form.tipo_exame.errors }}
-                        </div>
-
-                        <div class="form-group">
-                            {{ form.riscos_ocupacionais.label_tag }}
-                            {{ form.riscos_ocupacionais }}
-                            {{ form.riscos_ocupacionais.errors }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Exames Complementares</h3>
-
-                    <div class="checkbox-grid">
-                        {% for field in exames_fields %}
-                            <label class="checkbox-option">
-                                {{ field }}
-                                <span>{{ field.label }}</span>
-                            </label>
-                        {% endfor %}
-                    </div>
-
-                    <div class="outro-exame-grid">
-                        <label class="checkbox-option">
-                            {{ form.outro_exame }}
-                            <span>{{ form.outro_exame.label }}</span>
-                        </label>
-
-                        <div class="form-group">
-                            {{ form.descricao_outro_exame.label_tag }}
-                            {{ form.descricao_outro_exame }}
-                            {{ form.descricao_outro_exame.errors }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>PCMSO</h3>
 
                     <div class="form-group">
-                        {{ form.pcmso.label_tag }}
-                        {{ form.pcmso }}
-                        <p class="field-help">
-                            Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 10MB).
-                        </p>
-                        {{ form.pcmso.errors }}
+                        {{ form.cpf.label_tag }}
+                        {{ form.cpf }}
+                        {{ form.cpf.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.rg.label_tag }}
+                        {{ form.rg }}
+                        {{ form.rg.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.data_nascimento.label_tag }}
+                        {{ form.data_nascimento }}
+                        <p class="field-help">A idade será calculada automaticamente.</p>
+                        {{ form.data_nascimento.errors }}
                     </div>
                 </div>
+            </div>
 
-                <div class="form-section privacy-consent">
-                    <label class="checkbox-option privacy-checkbox">
-                        {{ form.aceite_privacidade }}
-                        <span>
-                            Declaro que possuo autorização para envio dos dados ocupacionais do colaborador e concordo com a
-                            <a href="{% url 'politica_privacidade' %}" target="_blank" rel="noopener noreferrer">
-                                Política de Privacidade
-                            </a>
-                            da Cemtrabi.
-                        </span>
-                    </label>
-                    {{ form.aceite_privacidade.errors }}
+            <div class="form-section form-step">
+                <h3><span>02</span> Dados da Empresa</h3>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        {{ form.empresa.label_tag }}
+                        {{ form.empresa }}
+                        {{ form.empresa.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.cnpj.label_tag }}
+                        {{ form.cnpj }}
+                        {{ form.cnpj.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.nome_emitente.label_tag }}
+                        {{ form.nome_emitente }}
+                        {{ form.nome_emitente.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.endereco_empresa.label_tag }}
+                        {{ form.endereco_empresa }}
+                        {{ form.endereco_empresa.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.telefone.label_tag }}
+                        {{ form.telefone }}
+                        {{ form.telefone.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.data_encaminhamento.label_tag }}
+                        {{ form.data_encaminhamento }}
+                        {{ form.data_encaminhamento.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section form-step">
+                <h3><span>03</span> Dados Profissionais</h3>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        {{ form.funcao.label_tag }}
+                        {{ form.funcao }}
+                        {{ form.funcao.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.setor.label_tag }}
+                        {{ form.setor }}
+                        {{ form.setor.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.data_admissao.label_tag }}
+                        {{ form.data_admissao }}
+                        {{ form.data_admissao.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.tipo_exame.label_tag }}
+                        {{ form.tipo_exame }}
+                        {{ form.tipo_exame.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.riscos_ocupacionais.label_tag }}
+                        {{ form.riscos_ocupacionais }}
+                        {{ form.riscos_ocupacionais.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section form-step">
+                <h3><span>04</span> Exames Complementares</h3>
+
+                <div class="checkbox-grid">
+                    {% for field in exames_fields %}
+                        <label class="checkbox-option">
+                            {{ field }}
+                            <span>{{ field.label }}</span>
+                        </label>
+                    {% endfor %}
                 </div>
 
-                <button type="submit" class="btn btn-submit" id="submit-btn">
-                    <span class="btn-text">Enviar Encaminhamento</span>
-                    <span class="btn-loading" style="display: none;">
-                        <span class="loading-spinner" aria-hidden="true"></span>
-                        Enviando...
+                <div class="outro-exame-grid">
+                    <label class="checkbox-option">
+                        {{ form.outro_exame }}
+                        <span>{{ form.outro_exame.label }}</span>
+                    </label>
+
+                    <div class="form-group">
+                        {{ form.descricao_outro_exame.label_tag }}
+                        {{ form.descricao_outro_exame }}
+                        {{ form.descricao_outro_exame.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section form-step">
+                <h3><span>05</span> PCMSO</h3>
+
+                <div class="form-group file-upload-card">
+                    {{ form.pcmso.label_tag }}
+                    {{ form.pcmso }}
+                    <p class="field-help">
+                        Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 10MB).
+                    </p>
+                    {{ form.pcmso.errors }}
+                </div>
+            </div>
+
+            <div class="form-section privacy-consent">
+                <label class="checkbox-option privacy-checkbox">
+                    {{ form.aceite_privacidade }}
+                    <span>
+                        Declaro que possuo autorização para envio dos dados ocupacionais do colaborador e concordo com a
+                        <a href="{% url 'politica_privacidade' %}" target="_blank" rel="noopener noreferrer">
+                            Política de Privacidade
+                        </a>
+                        da Cemtrabi.
                     </span>
-                </button>
+                </label>
+                {{ form.aceite_privacidade.errors }}
+            </div>
 
-            </form>
-
-        </div>
+            <button type="submit" class="btn btn-submit btn-primary" id="submit-btn">
+                <span class="btn-text">Enviar Encaminhamento</span>
+                <span class="btn-loading" style="display: none;">
+                    <span class="loading-spinner" aria-hidden="true"></span>
+                    Enviando...
+                </span>
+            </button>
+        </form>
     </div>
 </section>
 
