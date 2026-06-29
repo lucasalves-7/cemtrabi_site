@@ -1,0 +1,143 @@
+<article
+    class="colaborador-card"
+    data-colaborador-form
+    {% if colaborador.descartado %}data-deleted="true" hidden{% endif %}
+>
+    {{ colaborador.form.DELETE.as_hidden }}
+
+    <div class="colaborador-card-header">
+        <div>
+            <span class="eyebrow">Colaborador {{ index }}</span>
+            <h4>Dados ocupacionais</h4>
+        </div>
+
+        <button class="btn-remove-colaborador" type="button" data-remove-colaborador>
+            Remover
+        </button>
+    </div>
+
+    {% if colaborador.form.non_field_errors %}
+        <div class="form-errors">
+            {{ colaborador.form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    <div class="clone-options" data-clone-options>
+        {{ colaborador.form.copiar_de_indice }}
+
+        <div class="clone-reference">
+            <label>
+                Reaproveitar dados de outra função
+                <select data-copy-source aria-label="Escolha o colaborador de referência">
+                    <option value="">Selecione um colaborador já preenchido</option>
+                </select>
+            </label>
+            <p>
+                Ao selecionar, função, setor, tipo de exame, riscos e exames serão preenchidos
+                a partir do colaborador escolhido.
+            </p>
+            {{ colaborador.form.copiar_de_indice.errors }}
+        </div>
+    </div>
+
+    <div class="form-grid">
+        <div class="form-group">
+            {{ colaborador.form.nome.label_tag }}
+            {{ colaborador.form.nome }}
+            {{ colaborador.form.nome.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.cpf.label_tag }}
+            {{ colaborador.form.cpf }}
+            {{ colaborador.form.cpf.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.rg.label_tag }}
+            {{ colaborador.form.rg }}
+            {{ colaborador.form.rg.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.data_nascimento.label_tag }}
+            {{ colaborador.form.data_nascimento }}
+            <p class="field-help">A idade será calculada automaticamente.</p>
+            {{ colaborador.form.data_nascimento.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.funcao.label_tag }}
+            {{ colaborador.form.funcao }}
+            {{ colaborador.form.funcao.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.setor.label_tag }}
+            {{ colaborador.form.setor }}
+            {{ colaborador.form.setor.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.data_admissao.label_tag }}
+            {{ colaborador.form.data_admissao }}
+            {{ colaborador.form.data_admissao.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.tipo_exame.label_tag }}
+            {{ colaborador.form.tipo_exame }}
+            {{ colaborador.form.tipo_exame.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ colaborador.form.riscos_ocupacionais.label_tag }}
+            {{ colaborador.form.riscos_ocupacionais }}
+            {{ colaborador.form.riscos_ocupacionais.errors }}
+        </div>
+    </div>
+
+    <div class="colaborador-subsection">
+        <h5>Exames complementares</h5>
+
+        <div class="checkbox-grid">
+            {% for field in colaborador.exames_fields %}
+                <label class="checkbox-option">
+                    {{ field }}
+                    <span>{{ field.label }}</span>
+                </label>
+            {% endfor %}
+        </div>
+
+        <div class="outro-exame-grid">
+            <label class="checkbox-option">
+                {{ colaborador.form.outro_exame }}
+                <span>{{ colaborador.form.outro_exame.label }}</span>
+            </label>
+
+            <div class="form-group">
+                {{ colaborador.form.descricao_outro_exame.label_tag }}
+                {{ colaborador.form.descricao_outro_exame }}
+                {{ colaborador.form.descricao_outro_exame.errors }}
+            </div>
+        </div>
+    </div>
+
+    <div class="colaborador-subsection">
+        <h5>PCMSO</h5>
+
+        <label class="checkbox-option pcmso-toggle">
+            {{ colaborador.form.anexar_pcmso }}
+            <span>{{ colaborador.form.anexar_pcmso.label }}</span>
+        </label>
+
+        <div class="form-group file-upload-card" data-pcmso-upload>
+            {{ colaborador.form.pcmso.label_tag }}
+            {{ colaborador.form.pcmso }}
+            <p class="field-help">
+                Anexe o PCMSO deste colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 10MB).
+            </p>
+            {{ colaborador.form.pcmso.errors }}
+        </div>
+    </div>
+</article>

@@ -155,3 +155,72 @@ Mensagem automática do sistema de encaminhamentos.
     )
     encaminhamento.email_enviado = True
     return True
+
+
+def enviar_email_lote_encaminhamentos(encaminhamentos):
+    encaminhamentos = list(encaminhamentos)
+
+    if not encaminhamentos:
+        return False
+
+    primeiro = encaminhamentos[0]
+    total = len(encaminhamentos)
+    resumo_colaboradores = []
+
+    for indice, encaminhamento in enumerate(encaminhamentos, start=1):
+        resumo_colaboradores.append(
+            '\n'.join([
+                f'{indice}. {encaminhamento.nome}',
+                f'   CPF: {encaminhamento.cpf}',
+                f'   Função: {encaminhamento.funcao}',
+                f'   Setor: {encaminhamento.setor}',
+                f'   Tipo de exame: {encaminhamento.get_tipo_exame_display()}',
+            ])
+        )
+
+    corpo = f"""Olá,
+
+Um novo lote de encaminhamentos foi realizado através do sistema.
+
+Empresa: {primeiro.empresa}
+CNPJ: {primeiro.cnpj or '-'}
+Emitente: {primeiro.nome_emitente or '-'}
+Telefone: {primeiro.telefone}
+Data do encaminhamento: {_formatar_data(primeiro.data_encaminhamento)}
+Total de colaboradores: {total}
+
+Colaboradores:
+
+{chr(10).join(resumo_colaboradores)}
+
+Os documentos de encaminhamento seguem anexados neste email.
+
+Mensagem automática do sistema de encaminhamentos.
+"""
+
+    email = EmailMessage(
+        subject=f'Novo lote de encaminhamentos recebido - {primeiro.empresa}',
+        body=corpo,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[settings.ENCAMINHAMENTO_EMAIL_DESTINO],
+    )
+
+    try:
+        for encaminhamento in encaminhamentos:
+            if encaminhamento.docx_gerado:
+                email.attach_file(encaminhamento.docx_gerado.path)
+        email.send(fail_silently=False)
+    except Exception:
+        logger.exception(
+            'Erro ao enviar email do lote de encaminhamentos da empresa %s.',
+            primeiro.empresa,
+        )
+        return False
+
+    ids = [encaminhamento.pk for encaminhamento in encaminhamentos]
+    primeiro.__class__.objects.filter(pk__in=ids).update(email_enviado=True)
+
+    for encaminhamento in encaminhamentos:
+        encaminhamento.email_enviado = True
+
+    return True

@@ -9,10 +9,12 @@
         <span class="eyebrow">Fluxo digital ocupacional</span>
         <h1>Encaminhamento</h1>
         <p>
-            Preencha os dados abaixo e anexe o PCMSO para registrar
-            o encaminhamento.
+            Preencha os dados da empresa uma única vez e adicione todos os colaboradores
+            que precisam de encaminhamento.
         </p>
-        <p class="trust-note">As informações são usadas apenas para registro ocupacional e atendimento interno.</p>
+        <p class="trust-note">
+            Ao final, a Cemtrabi recebe um único e-mail com todos os colaboradores e documentos anexados.
+        </p>
     </header>
 
     <div class="contato-card wide-form">
@@ -24,196 +26,140 @@
             {% endfor %}
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data" novalidate>
+        <form method="post" enctype="multipart/form-data" novalidate data-encaminhamento-form>
             {% csrf_token %}
+            {{ colaborador_formset.management_form }}
 
-            {% if form.non_field_errors %}
+            {% if empresa_form.non_field_errors %}
                 <div class="form-errors">
-                    {{ form.non_field_errors }}
+                    {{ empresa_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% if colaborador_formset.non_form_errors %}
+                <div class="form-errors">
+                    {{ colaborador_formset.non_form_errors }}
+                </div>
+            {% endif %}
+
+            {% if erros_resumo %}
+                <div class="form-errors validation-summary" role="alert">
+                    <strong>Revise os itens abaixo para concluir o envio:</strong>
+                    <ul>
+                        {% for erro in erros_resumo %}
+                            <li>{{ erro }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             {% endif %}
 
             <div class="form-section form-step">
-                <h3><span>01</span> Dados do Colaborador</h3>
+                <h3><span>01</span> Dados da Empresa</h3>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        {{ form.nome.label_tag }}
-                        {{ form.nome }}
-                        {{ form.nome.errors }}
+                        {{ empresa_form.empresa.label_tag }}
+                        {{ empresa_form.empresa }}
+                        {{ empresa_form.empresa.errors }}
                     </div>
 
                     <div class="form-group">
-                        {{ form.cpf.label_tag }}
-                        {{ form.cpf }}
-                        {{ form.cpf.errors }}
+                        {{ empresa_form.cnpj.label_tag }}
+                        {{ empresa_form.cnpj }}
+                        {{ empresa_form.cnpj.errors }}
                     </div>
 
                     <div class="form-group">
-                        {{ form.rg.label_tag }}
-                        {{ form.rg }}
-                        {{ form.rg.errors }}
+                        {{ empresa_form.nome_emitente.label_tag }}
+                        {{ empresa_form.nome_emitente }}
+                        {{ empresa_form.nome_emitente.errors }}
                     </div>
 
                     <div class="form-group">
-                        {{ form.data_nascimento.label_tag }}
-                        {{ form.data_nascimento }}
-                        <p class="field-help">A idade será calculada automaticamente.</p>
-                        {{ form.data_nascimento.errors }}
+                        {{ empresa_form.endereco_empresa.label_tag }}
+                        {{ empresa_form.endereco_empresa }}
+                        {{ empresa_form.endereco_empresa.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ empresa_form.telefone.label_tag }}
+                        {{ empresa_form.telefone }}
+                        {{ empresa_form.telefone.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ empresa_form.data_encaminhamento.label_tag }}
+                        {{ empresa_form.data_encaminhamento }}
+                        {{ empresa_form.data_encaminhamento.errors }}
                     </div>
                 </div>
             </div>
 
-            <div class="form-section form-step">
-                <h3><span>02</span> Dados da Empresa</h3>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        {{ form.empresa.label_tag }}
-                        {{ form.empresa }}
-                        {{ form.empresa.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.cnpj.label_tag }}
-                        {{ form.cnpj }}
-                        {{ form.cnpj.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.nome_emitente.label_tag }}
-                        {{ form.nome_emitente }}
-                        {{ form.nome_emitente.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.endereco_empresa.label_tag }}
-                        {{ form.endereco_empresa }}
-                        {{ form.endereco_empresa.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.telefone.label_tag }}
-                        {{ form.telefone }}
-                        {{ form.telefone.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.data_encaminhamento.label_tag }}
-                        {{ form.data_encaminhamento }}
-                        {{ form.data_encaminhamento.errors }}
+            <div class="form-section form-step colaboradores-section">
+                <div class="section-heading-row">
+                    <div>
+                        <h3><span>02</span> Colaboradores</h3>
+                        <p class="field-help">
+                            Adicione quantos colaboradores forem necessários. Os dados da empresa serão reaproveitados.
+                        </p>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-section form-step">
-                <h3><span>03</span> Dados Profissionais</h3>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        {{ form.funcao.label_tag }}
-                        {{ form.funcao }}
-                        {{ form.funcao.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.setor.label_tag }}
-                        {{ form.setor }}
-                        {{ form.setor.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.data_admissao.label_tag }}
-                        {{ form.data_admissao }}
-                        {{ form.data_admissao.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.tipo_exame.label_tag }}
-                        {{ form.tipo_exame }}
-                        {{ form.tipo_exame.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form.riscos_ocupacionais.label_tag }}
-                        {{ form.riscos_ocupacionais }}
-                        {{ form.riscos_ocupacionais.errors }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section form-step">
-                <h3><span>04</span> Exames Complementares</h3>
-
-                <div class="checkbox-grid">
-                    {% for field in exames_fields %}
-                        <label class="checkbox-option">
-                            {{ field }}
-                            <span>{{ field.label }}</span>
-                        </label>
+                <div class="colaboradores-list" data-colaboradores-list>
+                    {% for colaborador in colaborador_forms %}
+                        {% include 'partials/colaborador_form_card.html' with colaborador=colaborador index=forloop.counter %}
                     {% endfor %}
-                </div>
-
-                <div class="outro-exame-grid">
-                    <label class="checkbox-option">
-                        {{ form.outro_exame }}
-                        <span>{{ form.outro_exame.label }}</span>
-                    </label>
-
-                    <div class="form-group">
-                        {{ form.descricao_outro_exame.label_tag }}
-                        {{ form.descricao_outro_exame }}
-                        {{ form.descricao_outro_exame.errors }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section form-step">
-                <h3><span>05</span> PCMSO</h3>
-
-                <div class="form-group file-upload-card">
-                    {{ form.pcmso.label_tag }}
-                    {{ form.pcmso }}
-                    <p class="field-help">
-                        Anexe o PCMSO do colaborador nos formatos PDF, JPG, JPEG ou PNG (máximo 10MB).
-                    </p>
-                    {{ form.pcmso.errors }}
                 </div>
             </div>
 
             <div class="form-section privacy-consent">
                 <label class="checkbox-option privacy-checkbox">
-                    {{ form.aceite_privacidade }}
+                    {{ empresa_form.aceite_privacidade }}
                     <span>
-                        Declaro que possuo autorização para envio dos dados ocupacionais do colaborador e concordo com a
+                        Declaro que possuo autorização para envio dos dados ocupacionais dos colaboradores e concordo com a
                         <a href="{% url 'politica_privacidade' %}" target="_blank" rel="noopener noreferrer">
                             Política de Privacidade
                         </a>
                         da Cemtrabi.
                     </span>
                 </label>
-                {{ form.aceite_privacidade.errors }}
+                {{ empresa_form.aceite_privacidade.errors }}
             </div>
 
-            <button type="submit" class="btn btn-submit btn-primary" id="submit-btn">
-                <span class="btn-text">Enviar Encaminhamento</span>
-                <span class="btn-loading" style="display: none;">
-                    <span class="loading-spinner" aria-hidden="true"></span>
-                    Enviando...
-                </span>
-            </button>
+            <div class="encaminhamento-actions">
+                <button type="submit" class="btn btn-submit btn-primary" id="submit-btn">
+                    <span class="btn-text">Enviar Encaminhamentos</span>
+                    <span class="btn-loading" style="display: none;">
+                        <span class="loading-spinner" aria-hidden="true"></span>
+                        Enviando...
+                    </span>
+                </button>
+
+                <button class="btn btn-secondary btn-add-colaborador" type="button" data-add-colaborador>
+                    + Adicionar colaborador
+                </button>
+            </div>
         </form>
     </div>
 </section>
+
+<template id="colaborador-empty-form">
+    {% include 'partials/colaborador_form_card.html' with colaborador=empty_colaborador_form index='__prefix_num__' %}
+</template>
 
 {% if sucesso_modal %}
 <div class="success-modal-overlay" id="encaminhamento-success-modal">
     <div class="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
         <h3 id="success-modal-title">Encaminhamento enviado com sucesso</h3>
         <p>
-            O encaminhamento de {{ sucesso_modal.nome }} pela empresa
-            {{ sucesso_modal.empresa }} foi registrado.
+            {{ sucesso_modal.total_colaboradores }} colaborador(es) da empresa
+            {{ sucesso_modal.empresa }} foram registrados.
         </p>
+        {% if not sucesso_modal.email_enviado %}
+            <p class="field-help">
+                O registro foi salvo, mas o e-mail automático não foi confirmado. Revise a configuração SMTP da VPS.
+            </p>
+        {% endif %}
 
         <div class="success-modal-actions">
             <a class="btn btn-whatsapp" href="{{ sucesso_modal.whatsapp_url }}" target="_blank" rel="noopener">
