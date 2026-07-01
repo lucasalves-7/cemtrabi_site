@@ -300,12 +300,15 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', True)
 EMAIL_TIMEOUT = env_int('EMAIL_TIMEOUT', 20)
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '').strip()
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
-ENCAMINHAMENTO_EMAIL_DESTINO = os.environ.get(
-    'ENCAMINHAMENTO_EMAIL_DESTINO',
-    'cemtrabivr@gmail.com'
+DEFAULT_FROM_EMAIL = (
+    os.environ.get('DEFAULT_FROM_EMAIL', '').strip()
+    or EMAIL_HOST_USER
+)
+ENCAMINHAMENTO_EMAIL_DESTINO = (
+    os.environ.get('ENCAMINHAMENTO_EMAIL_DESTINO', '').strip()
+    or 'cemtrabivr@gmail.com'
 )
 
 

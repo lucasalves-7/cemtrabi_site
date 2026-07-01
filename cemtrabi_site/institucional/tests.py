@@ -1,12 +1,63 @@
+from datetime import date
 from unittest.mock import patch
 
-from django.test import TestCase
+from django.core import mail
+from django.test import override_settings, TestCase
 from django.urls import reverse
 
 from .models import Encaminhamento
+from .services import enviar_email_lote_encaminhamentos
 
 
 class EncaminhamentoMultiplosColaboradoresTests(TestCase):
+    def test_popup_de_sucesso_nao_exibe_aviso_smtp(self):
+        session = self.client.session
+        session['encaminhamento_sucesso'] = {
+            'nome': 'Colaborador Teste',
+            'empresa': 'Empresa Teste',
+            'total_colaboradores': 2,
+            'email_enviado': False,
+            'whatsapp_url': 'https://wa.me/5521975204123',
+        }
+        session.save()
+
+        resposta = self.client.get(reverse('encaminhamento'))
+
+        self.assertContains(resposta, 'Encaminhamento enviado com sucesso')
+        self.assertNotContains(resposta, 'e-mail automático não foi confirmado')
+
+    @override_settings(
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+        DEFAULT_FROM_EMAIL='',
+        EMAIL_HOST_USER='remetente@cemtrabi.com.br',
+        ENCAMINHAMENTO_EMAIL_DESTINO='destino@cemtrabi.com.br',
+    )
+    def test_email_lote_usa_host_user_quando_remetente_esta_vazio(self):
+        encaminhamento = Encaminhamento(
+            nome='Colaborador Teste',
+            cpf='000.000.000-00',
+            rg='000000000',
+            data_nascimento=date(1990, 1, 1),
+            telefone='(21) 99999-9999',
+            empresa='Empresa Teste',
+            funcao='Operador',
+            setor='Operação',
+            data_admissao=date(2026, 1, 1),
+            data_encaminhamento=date(2026, 7, 1),
+            tipo_exame='periodico',
+        )
+        encaminhamento._ignorar_geracao_docx = True
+        encaminhamento.save()
+
+        resultado = enviar_email_lote_encaminhamentos([encaminhamento])
+
+        self.assertTrue(resultado)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].from_email, 'remetente@cemtrabi.com.br')
+        self.assertEqual(mail.outbox[0].to, ['destino@cemtrabi.com.br'])
+        encaminhamento.refresh_from_db()
+        self.assertTrue(encaminhamento.email_enviado)
+
     @patch('institucional.views.enviar_email_lote_encaminhamentos', return_value=True)
     @patch('institucional.views.gerar_docx_encaminhamento')
     def test_copia_dados_da_referencia_escolhida(

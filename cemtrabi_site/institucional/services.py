@@ -15,6 +15,22 @@ from docxtpl import DocxTemplate
 logger = logging.getLogger(__name__)
 
 
+def _obter_enderecos_email():
+    remetente = (
+        getattr(settings, 'DEFAULT_FROM_EMAIL', '')
+        or getattr(settings, 'EMAIL_HOST_USER', '')
+    ).strip()
+    destino = getattr(settings, 'ENCAMINHAMENTO_EMAIL_DESTINO', '').strip()
+
+    if not remetente or not destino:
+        logger.error(
+            'Configuração de email incompleta: remetente ou destino ausente.'
+        )
+        return None
+
+    return remetente, destino
+
+
 def _formatar_data(data):
     if not data:
         return ''
@@ -112,6 +128,11 @@ def gerar_docx_encaminhamento(encaminhamento):
 
 
 def enviar_email_encaminhamento(encaminhamento):
+    enderecos = _obter_enderecos_email()
+    if not enderecos:
+        return False
+    remetente, destino = enderecos
+
     if not encaminhamento.docx_gerado:
         return False
 
@@ -136,8 +157,8 @@ Mensagem automática do sistema de encaminhamentos.
     email = EmailMessage(
         subject='Novo Encaminhamento Recebido',
         body=corpo,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[settings.ENCAMINHAMENTO_EMAIL_DESTINO],
+        from_email=remetente,
+        to=[destino],
     )
 
     try:
@@ -162,6 +183,10 @@ def enviar_email_lote_encaminhamentos(encaminhamentos):
 
     if not encaminhamentos:
         return False
+    enderecos = _obter_enderecos_email()
+    if not enderecos:
+        return False
+    remetente, destino = enderecos
 
     primeiro = encaminhamentos[0]
     total = len(encaminhamentos)
@@ -201,8 +226,8 @@ Mensagem automática do sistema de encaminhamentos.
     email = EmailMessage(
         subject=f'Novo lote de encaminhamentos recebido - {primeiro.empresa}',
         body=corpo,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[settings.ENCAMINHAMENTO_EMAIL_DESTINO],
+        from_email=remetente,
+        to=[destino],
     )
 
     try:

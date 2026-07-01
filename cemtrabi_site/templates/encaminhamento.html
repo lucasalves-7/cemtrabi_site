@@ -160,12 +160,6 @@
             {{ sucesso_modal.total_colaboradores }} colaborador(es) da empresa
             {{ sucesso_modal.empresa }} foram registrados.
         </p>
-        {% if not sucesso_modal.email_enviado %}
-            <p class="field-help">
-                O registro foi salvo, mas o e-mail automático não foi confirmado. Revise a configuração SMTP da VPS.
-            </p>
-        {% endif %}
-
         <div class="success-modal-actions">
             <a class="btn btn-whatsapp" href="{{ sucesso_modal.whatsapp_url }}" target="_blank" rel="noopener">
                 Avisar no WhatsApp
